@@ -31,12 +31,12 @@ console.log(`
 //             name:'menu',
 //             message: 'What would you like to do?',
 //             choices: [
-//                 "View all departments",
-//                 "View all roles",
-//                 "View all employees",
-//                 "Add a department",
-//                 "Add a role",
-//                 "Add an employee",
+//                 "View all departments", // done
+//                 "View all roles", // done
+//                 "View all employees", // done
+//                 "Add a department", // done
+//                 "Add a role", // done
+//                 "Add an employee", // done
 //                 "Update employee role",
 //                 "View employees by manager",
 //                 "View employees by department"
@@ -71,6 +71,7 @@ console.log(`
 
 // menu ()
 
+// // WORKING
 // // // for adding new employee
 // const addEmployee = () => {
 // inquirer.prompt ([
@@ -88,76 +89,78 @@ console.log(`
 //     {
 //         type: 'input',
 //         name: 'employeerole',
-//         message: 'What is the employees role?',
+//         message: 'What is the employees role id?',
 //     },
 //     {
 //         type: 'input',
 //         name: 'employeemanager',
-//         message: 'Who is the employees manager',
+//         message: 'Who is the employees manager id',
 //     },
-// ]);
+// ]).then(answer => {
+//         const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+//         const params = [answer.employeefirst, answer.employeelast, answer.employeerole, answer.employeemanager];
+//         db.query(sql, params, (err, results) => {
+//             if (err) throw err;
+//             console.log(`${answer.employeefirst} ${answer.employeelast} was added as an employee.`);
+//             db.query(`
+//             SELECT employee.id AS ID,        
+//             concat(employee.first_name, ' ', employee.last_name) AS Employee_Name, 
+//             role.title AS Title,
+//             role.salary AS Salary,
+//             department.name AS Department,
+//             concat(manager.first_name, ' ', manager.last_name) AS Manager 
+//             FROM employee 
+//             LEFT JOIN employee manager on employee.manager_id = manager.id
+//             LEFT JOIN role ON employee.role_id = role.id
+//             LEFT JOIN department on role.department_id = department.id;
+//                     `, 
+//                     function(err, results) {console.table('\nEmployees', results);
+//             });
+//         })
+//     })
 // }
+// addEmployee()
 
-// for adding new role - WORKS
+
+
+// WORKING
+// for adding new role
 // DOES SAMPLE VIDEO HAVE SELECTING DEPARTMENT FROM A LIST? OR YOU JUST TYPE IT IN?
-const addRole = () => {
-inquirer.prompt ([
-    {
-        type: 'input',
-        name:'roletitle',
-        message: 'What is the role title?',
-        
-    },
-    {
-        type: 'input',
-        name: 'rolesalary',
-        message: 'What is the salary of this role?',
-    },
-    {
-        type: 'input',
-        name: 'roledepartment',
-        message: 'What department is this role in?',
-    }
-]).then(answer => {
-    const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
-    const params = [answer.roletitle, answer.rolesalary, answer.roledepartment];
-    db.query(sql, params, (err, results) => {
-        if (err) throw err;
-        console.log(`Added ${answer.roletitle} to Roles.`);
-        db.query('SELECT * FROM role', function (err, results) {
-            console.table('\nRoles', results);
-        });
-    })
-})
-}
-addRole()
-
-//// THIS WORKS
-//// for adding new department
-// const addDept = () => {
+// const addRole = () => {
 // inquirer.prompt ([
 //     {
 //         type: 'input',
-//         name:'newDept',
-//         message: 'What is the name of this department?',
-        
+//         name:'roletitle',
+//         message: 'What is the role title?',      
+//     },
+//     {
+//         type: 'input',
+//         name: 'rolesalary',
+//         message: 'What is the salary of this role?',
+//     },
+//     {
+//         type: 'input',
+//         name: 'roledepartment',
+//         message: 'What department is this role in? Enter department id.',
 //     }
 // ]).then(answer => {
-//     const sql =`INSERT INTO department (name) VALUES (?)`;
-//     db.query(sql, answer.newDept, (err, results) => {
+//     const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
+//     const params = [answer.roletitle, answer.rolesalary, answer.roledepartment];
+//     db.query(sql, params, (err, results) => {
 //         if (err) throw err;
-//         console.log(`Added to Departments.`);
-//         db.query('SELECT * FROM department', function (err, results) {
-//             console.table('\nDepartments', results);
+//         console.log(`${answer.roletitle} was added to Roles.`);
+//         db.query('SELECT * FROM role', function (err, results) {
+//             console.table('\nRoles', results);
 //         });
 //     })
 // })
 // }
+// addRole()
 
-// addDept()
 
 
-// // for adding new department - ANOTHER WAY OF DOING IT WITHOUT USING CONST = SQL
+// WORKING
+// // for adding new department 
 // const addDept = () => {
 // inquirer.prompt ([
 //     {
@@ -169,7 +172,7 @@ addRole()
 // ]).then(answer => {
 //     db.query(`INSERT INTO department (name) VALUES (?)`, answer.newDept, (err, results) => {
 //         if (err) throw err;
-//         console.log(`Added to Departments.`);
+//         console.log(`${answer.newDept} was added to Departments.`);
 //         db.query('SELECT * FROM department', function (err, results) {
 //             console.table('\nDepartments', results);
 //         });
@@ -180,4 +183,49 @@ addRole()
 // addDept()
 
 
+// for updating employee role
+const updateRole = () => {
+inquirer.prompt ([
+    {
+        type: 'input',
+        name:'empId',
+        message: 'What is ID of the employee you want to update?',
+        
+    },
+    {
+        type: 'input',
+        name: 'roleId',
+        message: 'What is the ID of the role you want to assign to this employee?',
+    }
+]).then(answer => {
+    const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+    const params = [answer.roleId, answer.empId];
+    db.query(sql, params, (err, results) => {
+        if (err) throw err;
+        console.log(`Employee's role was updated.`);
+        db.query(`SELECT employee.id AS ID,        
+                    concat(employee.first_name, ' ', employee.last_name) AS Employee_Name, 
+                    role.title AS Title,
+                    role.salary AS Salary,
+                    department.name AS Department,
+                    concat(manager.first_name, ' ', manager.last_name) AS Manager 
+                    FROM employee 
+                    LEFT JOIN employee manager on employee.manager_id = manager.id
+                    LEFT JOIN role ON employee.role_id = role.id
+                    LEFT JOIN department on role.department_id = department.id;`, function (err, results) {
+            console.table('\nEmployees', results);
+        })
+    })
+})
+}
 
+updateRole()
+
+// const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
+//     const params = [answer.roletitle, answer.rolesalary, answer.roledepartment];
+// db.query(sql, params, (err, results) => {
+//             if (err) throw err;
+//             console.log(`${answer.roletitle} was added to Roles.`);
+//             db.query('SELECT * FROM role', function (err, results) {
+//                 console.table('\nRoles', results);
+//             });
