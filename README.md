@@ -15,10 +15,14 @@
 
 
 ## Installation Instructions: <a name="installation"></a>
-To install the necessary dependencies, run the following command in terminal `npm install`
+To use this application, clone the repository from GitHub. This application requires Node.js, inquirer, console.table, and mysql2. To install the necessary dependencies, run the following command in terminal once the respository has been cloned: `npm install`. To view the database from MySQL, run the following command in terminal `mysql -u root -p`. The user must enter their MySQL password to view the database. to start the application, run the following command in terminal `node server.js`.
 
 ## Usage Information: <a name="usage"></a>
+This application can be used to manage employees, roles, and departments of a company. This application allows users to view all employees, roles, and departments within a company as well as add new departments, add new roles, add new employees, and update employee roles.
 
+<img src="/assets/Screenshot.png">
+
+<a href="" target="blank">Demo Video</a>
 
 ## License: <a name="license"></a>
 This project is licensed under the MIT license.
