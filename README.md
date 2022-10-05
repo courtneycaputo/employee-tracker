@@ -22,7 +22,7 @@ This application can be used to manage employees, roles, and departments of a co
 
 <img src="/assets/Screenshot.png">
 
-<a href="" target="blank">Demo Video</a>
+<a href="https://drive.google.com/file/d/1YXoDNfoG6729-jCSK82BqJt6UFksZdjv/view" target="blank">Demo Video</a>
 
 ## License: <a name="license"></a>
 This project is licensed under the MIT license.
